@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7342135890303575133}
   - component: {fileID: 7342135890303575134}
   - component: {fileID: 7342135890303575135}
+  - component: {fileID: -8738616929793517822}
   m_Layer: 5
   m_Name: LettersContainer
   m_TagString: Untagged
@@ -35,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 400}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7342135890303575133
@@ -84,3 +85,17 @@ MonoBehaviour:
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 1
+--- !u!114 &-8738616929793517822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7342135890303575129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad481fa15524f4b4db936fa06713df0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonPrefab: {fileID: 1487199531527308401, guid: b3787488d7ca9024aafc1c04fbe35667, type: 3}
+  root: {fileID: 7342135890303575128}

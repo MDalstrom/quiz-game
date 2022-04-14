@@ -13,15 +13,25 @@ namespace QuizGame.Graphics
         [Header("Disabled state")]
         [SerializeField] private GameObject disabledStateObject;
 
-        public event UnityAction onClick;
+        public UnityEvent onClick = new UnityEvent();
+        private bool isInteractable;
 
-        public void Init()
+        public char Value { get; private set; }
+
+        public void Init(bool isInteractable)
         {
-            button.onClick.AddListener(onClick);
+            this.isInteractable = isInteractable;
+
+            button.onClick.AddListener(() => onClick?.Invoke());
         }
 
         public void UpdateView(char? value)
         {
+            Value = value.GetValueOrDefault();
+            name = $"{Value} button";
+
+            button.interactable = isInteractable && value.HasValue;
+
             enabledStateObject.SetActive(value.HasValue);
             disabledStateObject.SetActive(!value.HasValue);
 

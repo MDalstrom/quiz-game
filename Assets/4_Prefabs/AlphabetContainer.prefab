@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5632237469149415330
+--- !u!1001 &2521315556859756969
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_AnchorMin.x
@@ -33,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_SizeDelta.x
@@ -77,7 +77,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575128, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -93,11 +93,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575129, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_Name
-      value: WordContainer Variant
+      value: AlphabetContainer
       objectReference: {fileID: 0}
     - target: {fileID: 7342135890303575135, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
       propertyPath: m_Constraint
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342135890303575135, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
+      propertyPath: m_ChildAlignment
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7342135890303575135, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
+      propertyPath: m_ConstraintCount
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60ddc43ee7a2bec40ba132f2d23f313a, type: 3}
