@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using QuizGame.Graphics;
+using QuizGame.Configs;
+using QuizGame.Parsing;
 
 namespace QuizGame.Gameplay
 {
@@ -8,26 +10,25 @@ namespace QuizGame.Gameplay
     {
         private const string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+        [SerializeField] private GameConfig config;
+        [Header("Container prefabs")]
         [SerializeField] private CharacterContainer wordContainer;
         [SerializeField] private CharacterContainer alphabetContainer;
-
+        [Space]
+        [SerializeField] private Transform uiRoot;
 
         private void Start()
         {
-            if (GetComponent<Canvas>() == null) throw new Exception("Loader component must be added to canvas");
-
-            Init();
+            InitContainers("alice");
         }
 
-        private void Init()
+        private void InitContainers(string word)
         {
-            var testword = "alice";
-
-            wordContainer = Instantiate(wordContainer, transform);
+            wordContainer = Instantiate(wordContainer, uiRoot);
             wordContainer.Init(isInteractable: false);
-            wordContainer.UpdateView(testword);
+            wordContainer.UpdateView(word);
 
-            alphabetContainer = Instantiate(alphabetContainer, transform);
+            alphabetContainer = Instantiate(alphabetContainer, uiRoot);
             alphabetContainer.Init(isInteractable: true);
             alphabetContainer.UpdateView(alphabet);
         }
