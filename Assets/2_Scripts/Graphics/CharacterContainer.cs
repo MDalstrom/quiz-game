@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Events;
+using System;
+using UniRx;
 
 namespace QuizGame.Graphics
 {
@@ -12,49 +13,37 @@ namespace QuizGame.Graphics
         [SerializeField] private Transform root;
 
         private readonly List<CharacterButton> buttons = new List<CharacterButton>();
-        public UnityEvent<CharacterButton> onClick = new UnityEvent<CharacterButton>();
-        private bool isInteractable;
+        public readonly Subject<CharacterButton> buttonClicked = new Subject<CharacterButton>();
 
-        public void Init(bool isInteractable)
+        public void SetWord(string word, bool isShown)
         {
-            this.isInteractable = isInteractable;
-        }
+            SetCharactersCapacity(word.Length);
 
-        public void UpdateView(char?[] word)
-        {
-            ResetWord();
-
-            for (int i = 0; i < word.Length; i++)
+            foreach (var (b, c) in buttons.Zip(word, Tuple.Create))
             {
-                AddCharacter(word[i]);
+                b.state.Value = isShown;
+                b.character.Value = c;
             }
         }
-        public void UpdateView(string word)
+
+        public void UpdateCharacters(char c, bool state)
         {
-            UpdateView(word.Select(x => x as char?).ToArray());
+            buttons.Where(x => x.character.Value == c).ToList().ForEach(x => x.state.Value = state);
         }
 
-        /// <summary>
-        /// Fill up container with empty word of given length
-        /// </summary>
-        public void UpdateView(int length)
+        private void SetCharactersCapacity(int capacity)
         {
-            UpdateView(new char?[length]);
-        }
-
-        private void ResetWord()
-        {
-            buttons.ForEach(x => Destroy(x));
-            buttons.Clear();
-        }
-
-        private CharacterButton AddCharacter(char? value)
-        {
-            var button = Instantiate(buttonPrefab, root);
-            button.Init(isInteractable);
-            button.onClick.AddListener(() => onClick?.Invoke(button));
-            button.UpdateView(value);
-            return button;
+            while (buttons.Count < capacity)
+            {
+                var newButton = Instantiate(buttonPrefab, root);
+                newButton.Init();
+                buttons.Add(newButton);
+                newButton.onClick.Subscribe(buttonClicked).AddTo(this);
+            }
+            for (int i = 0; i < buttons.Count; i++) 
+            {
+                buttons[i].gameObject.SetActive(i < capacity);
+            }
         }
     }
 }

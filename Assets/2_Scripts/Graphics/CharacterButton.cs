@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using UniRx;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace QuizGame.Graphics
@@ -13,29 +13,25 @@ namespace QuizGame.Graphics
         [Header("Disabled state")]
         [SerializeField] private GameObject disabledStateObject;
 
-        public UnityEvent onClick = new UnityEvent();
-        private bool isInteractable;
+        public readonly ReactiveProperty<bool> state = new ReactiveProperty<bool>();
+        public readonly ReactiveProperty<char> character = new ReactiveProperty<char>();
+        public readonly Subject<CharacterButton> onClick = new Subject<CharacterButton>();
 
-        public char Value { get; private set; }
-
-        public void Init(bool isInteractable)
+        public void Init()
         {
-            this.isInteractable = isInteractable;
+            character.Subscribe(_ => UpdateView()).AddTo(this);
+            state.Subscribe(_ => UpdateView()).AddTo(this);
 
-            button.onClick.AddListener(() => onClick?.Invoke());
+            button.onClick.AsObservable().Subscribe(_ => onClick.OnNext(this)).AddTo(this);
         }
 
-        public void UpdateView(char? value)
+        private void UpdateView()
         {
-            Value = value.GetValueOrDefault();
-            name = $"{Value} button";
+            name = $"{character.Value} button";
+            valueText.text = character.Value.ToString().ToUpper();
 
-            button.interactable = isInteractable && value.HasValue;
-
-            enabledStateObject.SetActive(value.HasValue);
-            disabledStateObject.SetActive(!value.HasValue);
-
-            valueText.text = value?.ToString().ToUpper();
+            enabledStateObject.SetActive(state.Value);
+            disabledStateObject.SetActive(!state.Value);
         }
     }
 }
