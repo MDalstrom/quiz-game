@@ -5,7 +5,7 @@ namespace QuizGame.Gameplay
 {
     public class Quiz
     {
-        public ReactiveProperty<string> word = new ReactiveProperty<string> { Value = "" };
+        public ReactiveProperty<string> word = new ReactiveProperty<string>();
         public ReactiveProperty<int> attempts = new ReactiveProperty<int>();
         public ReactiveProperty<int> score = new ReactiveProperty<int>();
         public ReactiveProperty<int> rightAnswers = new ReactiveProperty<int>();

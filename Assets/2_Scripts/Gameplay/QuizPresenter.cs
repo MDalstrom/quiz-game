@@ -22,6 +22,7 @@ namespace QuizGame.Gameplay
         [SerializeField] private Transform uiRoot;
 
         private Quiz quiz;
+        private CompositeDisposable quizDisp = new CompositeDisposable();
 
         private void Start()
         {
@@ -30,29 +31,39 @@ namespace QuizGame.Gameplay
 
         public void Init()
         {
-            quiz = new Quiz(new TextParser(config.textSource.text, config.minWordLength, config.randomizeBufferCapacity));
-            quiz.score.Value = 0;
-            StartNewRound();
-
-            // Prefabs
             wordContainer = Instantiate(wordContainer, uiRoot);
 
             alphabetContainer = Instantiate(alphabetContainer, uiRoot);
             alphabetContainer.buttonClicked.Subscribe(OnTriedToGuess).AddTo(this);
 
-            // Subscriptions
-            quiz.word.Subscribe(OnWordChanged).AddTo(this);
-            quiz.attempts.Subscribe(count => attemptsCounter.text = count.ToString()).AddTo(this);
-            quiz.score.Subscribe(count => scoreCounter.text = count.ToString()).AddTo(this);
+            InitQuiz();
+        }
 
-            quiz.attempts.Where(count => count == 0).Subscribe(_ => OnLost()).AddTo(this);
-            quiz.rightAnswers.Where(count => quiz.word.HasValue && count == quiz.word.Value.Length).Subscribe(_ => OnWordCompleted()).AddTo(this);
+        private void InitQuiz()
+        {
+            quizDisp.Clear();
+
+            quiz = new Quiz(new TextParser(config.textSource.text, config.minWordLength, config.randomizeBufferCapacity));
+            quiz.score.Value = 0;
+            StartNewRound();
+
+            quiz.word.Subscribe(OnWordChanged).AddTo(quizDisp);
+            quiz.attempts.Subscribe(count => attemptsCounter.text = count.ToString()).AddTo(quizDisp);
+            quiz.score.Subscribe(count => scoreCounter.text = count.ToString()).AddTo(quizDisp);
+
+            quiz.attempts.Where(count => count == 0).Subscribe(_ => OnLost()).AddTo(quizDisp);
+            quiz.rightAnswers.Where(count => count == quiz.word.Value.Distinct().Count()).Subscribe(_ => OnWordCompleted()).AddTo(quizDisp);
         }
 
         private void OnWordChanged(string newWord)
         {
-            if (string.IsNullOrEmpty(newWord)) OnWon();
+            if (string.IsNullOrEmpty(newWord))
+            {
+                OnWon();
+                return;
+            }
 
+            Debug.Log($"Hint:\r\n{newWord}");
             wordContainer.SetWord(newWord, isShown: false);
             alphabetContainer.SetWord(TextParser.letters, isShown: true);
         }
@@ -88,6 +99,7 @@ namespace QuizGame.Gameplay
         {
             var messageContainer = Instantiate(gameEndContainer, uiRoot);
             await messageContainer.ShowMessage(config.onWonHeader, config.onWonDescription);
+            InitQuiz();
         }
 
         private void StartNewRound()

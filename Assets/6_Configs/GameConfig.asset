@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c24eb0b97269f41ba8c08560ac85a3, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  textSource: {fileID: 4900000, guid: 162e95c7c052c0c4d83e38d1c7f80c33, type: 3}
+  textSource: {fileID: 4900000, guid: 8e8b8c590ddc74348a2f9bde0a9ac93f, type: 3}
   minWordLength: 4
   attemptsPerWord: 5
   randomizeBufferCapacity: 10
