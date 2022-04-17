@@ -17,6 +17,7 @@ namespace QuizGame.Gameplay
         [Header("Container prefabs")]
         [SerializeField] private CharacterContainer wordContainer;
         [SerializeField] private CharacterContainer alphabetContainer;
+        [SerializeField] private MessageContainer gameEndContainer;
         [Space]
         [SerializeField] private Transform uiRoot;
 
@@ -45,12 +46,12 @@ namespace QuizGame.Gameplay
             quiz.score.Subscribe(count => scoreCounter.text = count.ToString()).AddTo(this);
 
             quiz.attempts.Where(count => count == 0).Subscribe(_ => OnLost()).AddTo(this);
-            quiz.rightAnswers.Where(count => quiz.word.HasValue && count == quiz.word.Value.Length).Subscribe(_ => OnWon()).AddTo(this);
+            quiz.rightAnswers.Where(count => quiz.word.HasValue && count == quiz.word.Value.Length).Subscribe(_ => OnWordCompleted()).AddTo(this);
         }
 
         private void OnWordChanged(string newWord)
         {
-            if (string.IsNullOrEmpty(newWord)) OnGameEnded();
+            if (string.IsNullOrEmpty(newWord)) OnWon();
 
             wordContainer.SetWord(newWord, isShown: false);
             alphabetContainer.SetWord(TextParser.letters, isShown: true);
@@ -67,20 +68,26 @@ namespace QuizGame.Gameplay
             else quiz.rightAnswers.Value++;
         }
 
-        private void OnLost()
-        {
-            Application.Quit();
-        }
-
-        private void OnWon()
+        private void OnWordCompleted()
         {
             quiz.score.Value += quiz.attempts.Value;
             StartNewRound();
         }
 
-        private void OnGameEnded()
+        private async void OnLost()
         {
-            Debug.Log("You won");
+            var messageContainer = Instantiate(gameEndContainer, uiRoot);
+            await messageContainer.ShowMessage(config.onLostHeader, config.onLostDescription);
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #else
+            Application.Quit();
+            #endif
+        }
+        private async void OnWon()
+        {
+            var messageContainer = Instantiate(gameEndContainer, uiRoot);
+            await messageContainer.ShowMessage(config.onWonHeader, config.onWonDescription);
         }
 
         private void StartNewRound()

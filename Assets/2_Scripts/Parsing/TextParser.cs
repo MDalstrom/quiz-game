@@ -12,13 +12,14 @@ namespace QuizGame.Parsing
         public const string letters = "abcdefghijklmnopqrstuvwxyz";
 
         private readonly List<string> uniqueWords;
+        private readonly List<string> wordsBuffer;
         private readonly string source;
 
         private int index;
 
         public int MinLength { get; set; }
 
-        public TextParser(string source, int minLength = 1)
+        public TextParser(string source, int minLength = 1, int capacity = 8)
         {
             this.source = source.ToLower();
             MinLength = minLength;
@@ -28,6 +29,11 @@ namespace QuizGame.Parsing
         }
 
         public string GetWord()
+        {
+            wordsBuffer.
+        }
+
+        private string ParseWord()
         {
             var result = "";
 

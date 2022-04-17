@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 87083570}
   - component: {fileID: 87083569}
   m_Layer: 5
-  m_Name: UI content
+  m_Name: UI bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,8 +180,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 25
-    m_Top: 25
-    m_Bottom: 25
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
@@ -436,6 +436,7 @@ MonoBehaviour:
   attemptsCounter: {fileID: 201593759}
   wordContainer: {fileID: 5229673197564760224, guid: e94327a841cc8e945930495a118aa1f1, type: 3}
   alphabetContainer: {fileID: 2614252792637527723, guid: b4d372ce982a4aa4092d99cfae97b1ff, type: 3}
+  gameEndContainer: {fileID: 3161638930743471774, guid: e4f68ee6c84ddc940bf46fdd98e1ca5b, type: 3}
   uiRoot: {fileID: 1145715102}
 --- !u!1 &574351881
 GameObject:
