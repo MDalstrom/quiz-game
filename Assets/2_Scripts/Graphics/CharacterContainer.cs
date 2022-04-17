@@ -14,8 +14,8 @@ namespace QuizGame.Graphics
 
         private readonly List<CharacterButton> buttons = new List<CharacterButton>();
         public readonly Subject<CharacterButton> buttonClicked = new Subject<CharacterButton>();
-
-        public void SetWord(string word, bool isShown)
+        
+        public void SetWord(string word, bool isShown, bool isInteractable)
         {
             SetCharactersCapacity(word.Length);
 
@@ -23,6 +23,7 @@ namespace QuizGame.Graphics
             {
                 b.state.Value = isShown;
                 b.character.Value = c;
+                b.isInteractable.Value = isInteractable;
             }
         }
 

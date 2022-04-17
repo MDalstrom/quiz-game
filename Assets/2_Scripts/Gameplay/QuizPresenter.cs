@@ -64,8 +64,8 @@ namespace QuizGame.Gameplay
             }
 
             Debug.Log($"Hint:\r\n{newWord}");
-            wordContainer.SetWord(newWord, isShown: false);
-            alphabetContainer.SetWord(TextParser.letters, isShown: true);
+            wordContainer.SetWord(newWord, isShown: false, isInteractable: false);
+            alphabetContainer.SetWord(TextParser.letters, isShown: true, isInteractable: true);
         }
 
         private void OnTriedToGuess(CharacterButton sender)
