@@ -24,19 +24,29 @@ namespace QuizGame.Parsing
             this.source = source.ToLower();
             MinLength = minLength;
 
+            wordsBuffer = new List<string>();
+            wordsBuffer.Capacity = capacity;
             uniqueWords = new List<string>();
             index = 0;
         }
 
         public string GetWord()
         {
-            wordsBuffer.
+            while (wordsBuffer.Count != wordsBuffer.Capacity && TryParseWord(out var word))
+            {
+                wordsBuffer.Add(word);
+            }
+
+            if (wordsBuffer.Count == 0) return null;
+
+            var bufferWord = wordsBuffer[Random.Range(0, wordsBuffer.Count)];
+            wordsBuffer.Remove(bufferWord);
+            return bufferWord;
         }
 
-        private string ParseWord()
+        private bool TryParseWord(out string result)
         {
-            var result = "";
-
+            result = "";
             while (index < source.Length)
             {
                 var currentChar = source[index];
@@ -53,10 +63,10 @@ namespace QuizGame.Parsing
                 else 
                 {
                     uniqueWords.Add(result);
-                    return result;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace QuizGame.Gameplay
 
         public void Init()
         {
-            quiz = new Quiz(new TextParser(config.textSource.text, config.minWordLength));
+            quiz = new Quiz(new TextParser(config.textSource.text, config.minWordLength, config.randomizeBufferCapacity));
             quiz.score.Value = 0;
             StartNewRound();
 
